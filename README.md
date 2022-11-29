@@ -1,6 +1,8 @@
-# Carboncase deployment Configuration
+# Carbon Case Deployment Configuration
 
-This repository contains configuration files and instructions for the deployment of the carboncase application on our Docker/Portainer server.
+This repository contains configuration files and instructions for the deployment of the carbon case application on a Docker/Portainer server.
+
+NB: Where you read `energietransitiewindesheim.nl` below, you should subsitute your own domain.
 
 ## Table of contents
 - [Prerequisites](#prerequisites)
@@ -13,7 +15,7 @@ This repository contains configuration files and instructions for the deployment
 
 ## Prerequisites
 
-This repository assumes that the configuration will deployed on the following existing infrastructure:
+This repository assumes that the configuration will be deployed on the following infrastructure:
 - Linux server (Ubuntu 20.04)
 - Docker
 - Portainer
@@ -84,25 +86,25 @@ Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 #### `APP_TAG`
 
-This environment variable is used to set the tag for the carboncase app image.
+This environment variable is used to set the tag for the carbon case app image.
 
 Example values: `v1.0.0` or `v1.0.0-rc.1`
 
 #### `APP_API_TAG`
 
-This environment variable is used to set the tag for the carboncase app API image.
+This environment variable is used to set the tag for the carbon case app API image.
 
 Example values: `v1.0.0` or `v1.0.0-rc.1`
 
 #### `MANAGEMENT_TAG`
 
-This environment variable is used to set the tag for the carboncase management image.
+This environment variable is used to set the tag for the carbon case management image.
 
 Example values: `v1.0.0` or `v1.0.0-rc.1`
 
 #### `MANAGEMENT_API_TAG`
 
-This environment variable is used to set the tag for the carboncase management API image.
+This environment variable is used to set the tag for the carbon case management API image.
 
 Example values: `v1.0.0` or `v1.0.0-rc.1`
 
