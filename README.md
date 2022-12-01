@@ -138,27 +138,27 @@ Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 #### `JwtBearerSecretKey`
 
-This environment variable is used to set the key used for singing JWT's.
+This environment variable is used to set the key used for signing the JWT token used for user authorization. NOTE: this must be a string that is at least 128 bit.
 
-Example values: `nb4!6&JtB!j82j$tzYb%#kH1` or `l2D@K7zOAjpCMn#I54b^%uv#`
+Example values: `YzhSGXWIWqjDvSlUbDUWC6jlPGy9vdlPPHnDHI63v50wcN4l1k4BreFaw6pC5BgUlBzyxvhBhpokNrg9lfmjt2V7geo9CniLV2bu` or `pl0vyh6y3tDvHHCBcfj6knlhN9lW9FjDGUGxgLNeqz2XbU7rpdVleDIWuSa2hmYvwBglir4Bvzk5VogbPwl46U5InSWPP1BCo9jC`
 
 #### `EMAIL_USER`
 
-This environment variable is used to set ...
+This environment variable is used to set the email account username which is used for sending e-mails for account confirmation in the management dashboard.
 
-Example values: `...` or `...`
+Example values: `test@test.nl` or `hello@carboncasecalculator.example`
 
 #### `EMAIL_PASSWORD`
 
-This environment variable is used to set ...
+This environment variable is used to set the email account password which is used for sending e-mails for account confirmation in the management dashboard.
 
-Example values: `...` or `...`
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 #### `EMAIL_DISPLAY_NAME`
 
-This environment variable is used to set ...
+This environment variable is used to set the email account display name which is used for sending e-mails for account confirmation in the management dashboard.
 
-Example values: `...` or `...`
+Example values: `Energietransitie Windesheim` or `Carbon Case Calculator`
 
 #### `WATCHTOWER_HTTP_API_TOKEN`
 
