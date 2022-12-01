@@ -1,7 +1,7 @@
 version: "3.9"
 services:
 
-  app-test-db:
+  app-database-tst:
     container_name: carboncase-db-tst
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
@@ -26,6 +26,8 @@ services:
     #   - KEY=val
     networks:
       - web
+    depends_on:
+      - app-api-tst
 
   app-api-tst:
     container_name: carboncase-app-api-tst
@@ -48,6 +50,8 @@ services:
       - JwtBearerSecretKey=${JwtBearerSecretKey} # For signage of JWT tokens
     networks:
       - web
+    depends_on:
+      - app-database-tst
 
   management-tst:
     container_name: carboncase-management-tst
@@ -64,6 +68,8 @@ services:
     #   - KEY=val
     networks:
       - web
+    depends_on:
+      - management-api-tst
 
   management-api-tst:
     container_name: carboncase-management-api-tst
@@ -89,6 +95,8 @@ services:
       - EmailDisplayName=${EMAIL_DISPLAY_NAME}
     networks:
       - web
+    depends_on:
+      - app-database-tst
   
   watchtower:
     container_name: carboncase-watchtower
