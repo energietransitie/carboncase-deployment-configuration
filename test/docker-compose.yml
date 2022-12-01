@@ -8,8 +8,6 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-    networks:
-      - web
 
   app-tst:
     container_name: carboncase-app-tst
@@ -49,6 +47,7 @@ services:
       - DbUser=${DB_USER}
       - JwtBearerSecretKey=${JwtBearerSecretKey} # For signage of JWT tokens
     networks:
+      - default
       - web
     depends_on:
       - app-database-tst
@@ -94,6 +93,7 @@ services:
       - EmailPassword=${EMAIL_PASSWORD}
       - EmailDisplayName=${EMAIL_DISPLAY_NAME}
     networks:
+      - default
       - web
     depends_on:
       - app-database-tst
