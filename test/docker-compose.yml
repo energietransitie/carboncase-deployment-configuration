@@ -3,7 +3,7 @@ services:
 
   app-database-tst:
     container_name: carboncase-db-tst
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     restart: unless-stopped
     environment:
       - ACCEPT_EULA=Y
