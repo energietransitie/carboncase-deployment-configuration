@@ -43,7 +43,7 @@ services:
       - ASPNETCORE_URLS=http://+:5000 # neccessary to ensure it runs on the correct port, which is also exposed by docker
       - DbDatabase=${DB_DATABASE}
       - DbPassword=${DB_PASSWORD}
-      - DbServer=${DB_SERVER} # Is internal IP and port of the database, ex: 172.17.0.3,1433
+      - DbServer=app-database-tst,1433
       - DbUser=${DB_USER}
       - JwtBearerSecretKey=${JwtBearerSecretKey} # For signage of JWT tokens
     networks:
@@ -86,7 +86,7 @@ services:
       - ASPNETCORE_URLS=http://+:5002 # neccessary to ensure it runs on the correct port, which is also exposed by docker
       - DbDatabase=${DB_DATABASE}
       - DbPassword=${DB_PASSWORD}
-      - DbServer=${DB_SERVER} # Is internal IP and port of the database, ex: 172.17.0.3,1433
+      - DbServer=app-database-tst,1433
       - DbUser=${DB_USER}
       - JwtBearerSecretKey=${JwtBearerSecretKey} # For signage of JWT tokens
       - EmailUser=${EMAIL_USER}
