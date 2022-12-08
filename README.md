@@ -72,13 +72,13 @@ Add a new stack according to the following steps:
 
 The production environment requires the following enironment variables to be set in the Portainer stack.
 
-#### `DB_USER`
+#### `WP_DB_USER`
 
 This environment variable is used to set the database user for the wordpress database.
 
 Example values: `wordpress` or `user`
 
-#### `DB_PASSWORD`
+#### `WP_DB_PASSWORD`
 
 This environment variable is used to set the database password for the wordpress database.
 
@@ -108,6 +108,55 @@ This environment variable is used to set the tag for the carbon case management 
 
 Example values: `v1.0.0` or `v1.0.0-rc.1`
 
+#### `MSSQL_SA_PASSWORD`
+
+This environment variable is used to set the database system administrator password.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+#### `DB_DATABASE`
+
+This environment variable is used to set which database should be created.
+
+Example values: `app` or `test`
+
+#### `DB_USER`
+
+This environment variable is used to set the database user for the app database.
+
+Example values: `app` or `user`
+
+#### `DB_PASSWORD`
+
+This environment variable is used to set the database password for the app database.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+#### `JWTBEARER_SECRETKEY`
+
+This environment variable is used to set the key used for signing the JWT token used for user authorization. NOTE: this must be a string that is at least 128 bit.
+
+Example values: `YzhSGXWIWqjDvSlUbDUWC6jlPGy9vdlPPHnDHI63v50wcN4l1k4BreFaw6pC5BgUlBzyxvhBhpokNrg9lfmjt2V7geo9CniLV2bu` or `pl0vyh6y3tDvHHCBcfj6knlhN9lW9FjDGUGxgLNeqz2XbU7rpdVleDIWuSa2hmYvwBglir4Bvzk5VogbPwl46U5InSWPP1BCo9jC`
+
+#### `EMAIL_USER`
+
+This environment variable is used to set the email account username which is used for sending e-mails for account confirmation in the management dashboard.
+
+Example values: `test@test.nl` or `hello@carboncasecalculator.example`
+
+#### `EMAIL_PASSWORD`
+
+This environment variable is used to set the email account password which is used for sending e-mails for account confirmation in the management dashboard.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+#### `EMAIL_DISPLAY_NAME`
+
+This environment variable is used to set the email account display name which is used for sending e-mails for account confirmation in the management dashboard.
+
+Example values: `Energietransitie Windesheim` or `Carbon Case Calculator`
+
+
 ### Test
 
 The test environment requires the following enironment variables to be set in the Portainer stack.
@@ -136,7 +185,7 @@ This environment variable is used to set the database password for the app datab
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
-#### `JwtBearerSecretKey`
+#### `JWTBEARER_SECRETKEY`
 
 This environment variable is used to set the key used for signing the JWT token used for user authorization. NOTE: this must be a string that is at least 128 bit.
 

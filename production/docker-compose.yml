@@ -15,8 +15,8 @@ services:
     environment:
       - WORDPRESS_DB_HOST=database-prd
       - WORDPRESS_DB_NAME=wordpress
-      - WORDPRESS_DB_USER=${DB_USER}
-      - WORDPRESS_DB_PASSWORD=${DB_PASSWORD}
+      - WORDPRESS_DB_USER=${WP_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WP_DB_PASSWORD}
     networks:
       - default
       - web
@@ -28,7 +28,7 @@ services:
     image: mariadb:10.10.2-jammy
     restart: unless-stopped
     volumes:
-      - database:/var/lib/mysql
+      - landingpage-database:/var/lib/mysql
     environment:
       - MARIADB_RANDOM_ROOT_PASSWORD=yes
       - MARIADB_DATABASE=wordpress
@@ -37,9 +37,19 @@ services:
     networks:
       - default
 
+  app-database-prd:
+    container_name: carboncase-db-prd
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: unless-stopped
+    volumes:
+      - app-database:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+
   app-prd:
     container_name: carboncase-app-prd
-    image: <your image name>:${APP_TAG}
+    image: ghcr.io/energietransitie/carboncase-frontend:${APP_TAG}
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-app-prd.rule=Host(`app.carboncase.energietransitiewindesheim.nl`)
@@ -50,24 +60,35 @@ services:
     #   - KEY=val
     networks:
       - web
+    depends_on:
+      - app-api-prd
 
   app-api-prd:
     container_name: carboncase-app-api-prd
-    image: <your image name>:${APP_API_TAG}
+    image: ghcr.io/energietransitie/carboncase-api:${APP_API_TAG}
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-app-api-prd.rule=Host(`api.app.carboncase.energietransitiewindesheim.nl`)
       - traefik.http.routers.carboncase-app-api-prd.tls=true
       - traefik.http.routers.carboncase-app-api-prd.tls.certresolver=lets-encrypt
       - traefik.http.services.carboncase-app-api-prd.loadbalancer.server.port=5000
-    # environment:
-    #   - KEY=val
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000 # neccessary to ensure it runs on the correct port, which is also exposed by docker
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=carboncase-db-prd,1433
+      - DB_USER=${DB_USER}
+      - JWTBEARER_SECRETKEY=${JWTBEARER_SECRETKEY} # For signage of JWT tokens
     networks:
+      - default
       - web
+    depends_on:
+      - app-database-prd
 
   management-prd:
     container_name: carboncase-management-prd
-    image: <your image name>:${MANAGEMENT_TAG}
+    image: ghcr.io/energietransitie/carboncase-management:${MANAGEMENT_TAG}
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-management-prd.rule=Host(`dash.carboncase.energietransitiewindesheim.nl`)
@@ -78,24 +99,39 @@ services:
     #   - KEY=val
     networks:
       - web
+    depends_on:
+      - management-api-prd
 
   management-api-prd:
     container_name: carboncase-management-prd
-    image: <your image name>:${MANAGEMENT_API_TAG}
+    image: ghcr.io/energietransitie/carboncase-management-api:${MANAGEMENT_API_TAG}
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-management-api-prd.rule=Host(`api.dash.carboncase.energietransitiewindesheim.nl`)
       - traefik.http.routers.carboncase-management-api-prd.tls=true
       - traefik.http.routers.carboncase-management-api-prd.tls.certresolver=lets-encrypt
       - traefik.http.services.carboncase-management-api-prd.loadbalancer.server.port=5002
-    # environment:
-    #   - KEY=val
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5002 # neccessary to ensure it runs on the correct port, which is also exposed by docker
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=carboncase-db-prd,1433
+      - DB_USER=${DB_USER}
+      - JWTBEARER_SECRETKEY=${JWTBEARER_SECRETKEY} # For signage of JWT tokens
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_DISPLAY_NAME=${EMAIL_DISPLAY_NAME}
     networks:
+      - default
       - web
+    depends_on:
+      - app-database-prd
 
 volumes:
   landingpage: {}
-  database: {}
+  landingpage-database: {}
+  app-database: {}
 
 networks:
   web:
