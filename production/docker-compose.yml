@@ -28,7 +28,7 @@ services:
     image: mariadb:10.10.2-jammy
     restart: unless-stopped
     volumes:
-      - data:/var/lib/mysql
+      - landingpage-database:/var/lib/mysql
     environment:
       - MARIADB_RANDOM_ROOT_PASSWORD=yes
       - MARIADB_DATABASE=wordpress
@@ -42,7 +42,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     restart: unless-stopped
     volumes:
-      - data:/var/opt/mssql
+      - app-database:/var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
@@ -75,11 +75,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5000 # neccessary to ensure it runs on the correct port, which is also exposed by docker
-      - DbDatabase=${DB_DATABASE}
-      - DbPassword=${DB_PASSWORD}
-      - DbServer=carboncase-db-prd,1433
-      - DbUser=${DB_USER}
-      - JwtBearerSecretKey=${JwtBearerSecretKey} # For signage of JWT tokens
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=carboncase-db-prd,1433
+      - DB_USER=${DB_USER}
+      - JWTBEARER_SECRETKEY=${JWTBEARER_SECRETKEY} # For signage of JWT tokens
     networks:
       - default
       - web
@@ -114,14 +114,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5002 # neccessary to ensure it runs on the correct port, which is also exposed by docker
-      - DbDatabase=${DB_DATABASE}
-      - DbPassword=${DB_PASSWORD}
-      - DbServer=carboncase-db-prd,1433
-      - DbUser=${DB_USER}
-      - Authentication:JwtBearer:SecretKey=${JwtBearerSecretKey} # For signage of JWT tokens
-      - Email:User=${EMAIL_USER}
-      - Email:Password=${EMAIL_PASSWORD}
-      - Email:DisplayName=${EMAIL_DISPLAY_NAME}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=carboncase-db-prd,1433
+      - DB_USER=${DB_USER}
+      - JWTBEARER_SECRETKEY=${JWTBEARER_SECRETKEY} # For signage of JWT tokens
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_DISPLAY_NAME=${EMAIL_DISPLAY_NAME}
     networks:
       - default
       - web
@@ -130,7 +130,8 @@ services:
 
 volumes:
   landingpage: {}
-  data: {}
+  landingpage-database: {}
+  app-database: {}
 
 networks:
   web:
