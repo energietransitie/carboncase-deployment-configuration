@@ -84,30 +84,6 @@ This environment variable is used to set the database password for the wordpress
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
-#### `APP_TAG`
-
-This environment variable is used to set the tag for the carbon case app image.
-
-Example values: `v1.0.0` or `v1.0.0-rc.1`
-
-#### `APP_API_TAG`
-
-This environment variable is used to set the tag for the carbon case app API image.
-
-Example values: `v1.0.0` or `v1.0.0-rc.1`
-
-#### `MANAGEMENT_TAG`
-
-This environment variable is used to set the tag for the carbon case management image.
-
-Example values: `v1.0.0` or `v1.0.0-rc.1`
-
-#### `MANAGEMENT_API_TAG`
-
-This environment variable is used to set the tag for the carbon case management API image.
-
-Example values: `v1.0.0` or `v1.0.0-rc.1`
-
 #### `MSSQL_SA_PASSWORD`
 
 This environment variable is used to set the database system administrator password.
