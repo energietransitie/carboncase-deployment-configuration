@@ -49,7 +49,7 @@ services:
 
   app-prd:
     container_name: carboncase-app-prd
-    image: ghcr.io/energietransitie/carboncase-frontend:latest
+    image: ghcr.io/energietransitie/carboncase-frontend:main
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-app-prd.rule=Host(`app.carboncase.energietransitiewindesheim.nl`)
@@ -65,7 +65,7 @@ services:
 
   app-api-prd:
     container_name: carboncase-app-api-prd
-    image: ghcr.io/energietransitie/carboncase-api:latest
+    image: ghcr.io/energietransitie/carboncase-api:main
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-app-api-prd.rule=Host(`api.app.carboncase.energietransitiewindesheim.nl`)
@@ -88,7 +88,7 @@ services:
 
   management-prd:
     container_name: carboncase-management-prd
-    image: ghcr.io/energietransitie/carboncase-management:latest
+    image: ghcr.io/energietransitie/carboncase-management:main
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-management-prd.rule=Host(`dash.carboncase.energietransitiewindesheim.nl`)
@@ -104,7 +104,7 @@ services:
 
   management-api-prd:
     container_name: carboncase-management-prd
-    image: ghcr.io/energietransitie/carboncase-management-api:latest
+    image: ghcr.io/energietransitie/carboncase-management-api:main
     restart: unless-stopped
     labels:
       - traefik.http.routers.carboncase-management-api-prd.rule=Host(`api.dash.carboncase.energietransitiewindesheim.nl`)
