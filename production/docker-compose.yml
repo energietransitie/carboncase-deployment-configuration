@@ -103,7 +103,7 @@ services:
       - management-api-prd
 
   management-api-prd:
-    container_name: carboncase-management-prd
+    container_name: carboncase-management-api-prd
     image: ghcr.io/energietransitie/carboncase-management-api:main
     restart: unless-stopped
     labels:
