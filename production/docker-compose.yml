@@ -32,8 +32,8 @@ services:
     environment:
       - MARIADB_RANDOM_ROOT_PASSWORD=yes
       - MARIADB_DATABASE=wordpress
-      - MARIADB_USER=${DB_USER}
-      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_USER=${WP_DB_USER}
+      - MARIADB_PASSWORD=${WP_DB_PASSWORD}
     networks:
       - default
 
