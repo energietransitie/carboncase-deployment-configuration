@@ -122,6 +122,7 @@ services:
       - EMAIL_USER=${EMAIL_USER}
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - EMAIL_DISPLAY_NAME=${EMAIL_DISPLAY_NAME}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
     networks:
       - default
       - web
