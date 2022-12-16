@@ -132,12 +132,32 @@ This environment variable is used to set the email account display name which is
 
 Example values: `Energietransitie Windesheim` or `Carbon Case Calculator`
 
+#### `GITHUB_CLIENT_ID`
+
+This environment variable is used to set the client id for GitHub authorization.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+
 #### `GITHUB_CLIENT_SECRET`
 
 This environment variable is used to set the client secret for GitHub authorization.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
+
+#### `MICROSOFT_CLIENT_ID`
+
+This environment vraiable is used to set the client id for Microsoft authorization.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+
+#### `MICROSOFT_CLIENT_SECRET`
+
+This environment variable is used to set the client secret for Microsoft authorization.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 ### Test
 
@@ -191,9 +211,30 @@ This environment variable is used to set the email account display name which is
 
 Example values: `Energietransitie Windesheim` or `Carbon Case Calculator`
 
+#### `GITHUB_CLIENT_ID`
+
+This environment variable is used to set the client id for GitHub authorization.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+
 #### `GITHUB_CLIENT_SECRET`
 
 This environment variable is used to set the client secret for GitHub authorization.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+
+#### `MICROSOFT_CLIENT_ID`
+
+This environment vraiable is used to set the client id for Microsoft authorization.
+
+Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
+
+
+#### `MICROSOFT_CLIENT_SECRET`
+
+This environment variable is used to set the client secret for Microsoft authorization.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
