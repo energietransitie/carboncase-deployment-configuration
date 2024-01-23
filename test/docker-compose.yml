@@ -20,8 +20,8 @@ services:
       - traefik.http.routers.carboncase-app-tst.tls=true
       - traefik.http.routers.carboncase-app-tst.tls.certresolver=lets-encrypt
       - traefik.http.services.carboncase-app-tst.loadbalancer.server.port=80
-    # environment:
-    #   - KEY=val
+    environment:
+      - VITE_API_URL=https://api.app.carboncase.tst.energietransitiewindesheim.nl
     networks:
       - web
     depends_on:
