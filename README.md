@@ -180,6 +180,30 @@ This environment variable is used to set the client secret for Microsoft authori
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
+### `VITE_CATEGORY_TRANSPORT`
+
+This environment variable is used to set the database category id used for the transport category.
+
+Example values: `1`
+
+### `VITE_CATEGORY_HARDWARE`
+
+This environment variable is used to set the database category id used for the hardware category.
+
+Example values: `2`
+
+### `VITE_CATEGORY_TOOLS`
+
+This environment variable is used to set the database category id used for the tools category.
+
+Example values: `3`
+
+### `VITE_INSIGNIFICANT_EMISSION_CONSTANT`
+
+This environment variable is used to set the insignificant emission constant used in the app.
+
+Example values: `100`
+
 ## Updating
 
 When a `docker-compose.yml` for a stack is changed, the new configuration will be updated automatically. This can take up to 10 minutes.
