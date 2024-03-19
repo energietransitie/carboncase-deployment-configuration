@@ -1,0 +1,90 @@
+version: "3.9"
+services:
+
+  database-dev:
+    container_name: carboncase-db-dev
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: unless-stopped
+    volumes:
+      - data:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SuPeRs3cUr3P@ssw0rd
+
+  app-dev:
+    container_name: carboncase-app-dev
+    build: ../../carboncase-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+      - VITE_BASE_URL=http://localhost:3000
+      - VITE_CATEGORY_TOOLS=${VITE_CATEGORY_TOOLS}
+      - VITE_CATEGORY_HARDWARE=${VITE_CATEGORY_HARDWARE}
+      - VITE_CATEGORY_TRANSPORT=${VITE_CATEGORY_TRANSPORT}
+      - VITE_INSIGNIFICANT_EMISSION_CONSTANT=${VITE_INSIGNIFICANT_EMISSION_CONSTANT}
+    depends_on:
+      - app-api-dev
+
+  app-api-dev:
+    container_name: carboncase-app-api-dev
+    build:
+      context: ../../carboncase-api
+      dockerfile: Api.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_URLS=http://+:5000 # neccessary to ensure it runs on the correct port, which is also exposed by docker
+      - DB_DATABASE=co2
+      - DB_PASSWORD=SuPeRs3cUr3P@ssw0rd
+      - DB_SERVER=carboncase-db-dev,1433
+      - DB_USER=sa
+      - JWTBEARER_SECRETKEY=jwt-bearer-dev-key # For signage of JWT tokens
+    depends_on:
+      - database-dev
+
+  management-dev:
+    container_name: carboncase-management-dev
+    build: ../../carboncase-management
+    restart: unless-stopped
+    ports:
+      - "3002:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5002
+      - VITE_FRONTEND_BASE_URL=http://localhost:3002
+      - VITE_GITHUB_AUTH_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - VITE_MICROSOFT_AUTH_CLIENT_ID=${MICROSOFT_CLIENT_ID}
+    depends_on:
+      - management-api-dev
+
+  management-api-dev:
+    container_name: carboncase-management-api-dev
+    build:
+      context: ../../carboncase-api
+      dockerfile: ManagementApi.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5002:5002"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_URLS=http://+:5002 # neccessary to ensure it runs on the correct port, which is also exposed by docker
+      - DB_DATABASE=co2
+      - DB_PASSWORD=SuPeRs3cUr3P@ssw0rd
+      - DB_SERVER=carboncase-db-dev,1433
+      - DB_USER=sa
+      - JWTBEARER_SECRETKEYjwt-bearer-dev-key # For signage of JWT tokens
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_DISPLAY_NAME=${EMAIL_DISPLAY_NAME}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - MICROSOFT_CLIENT_ID=${MICROSOFT_CLIENT_ID}
+      - MICROSOFT_CLIENT_SECRET=${MICROSOFT_CLIENT_SECRET}
+    depends_on:
+      - database-dev
+
+volumes:
+  data: {}

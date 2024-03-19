@@ -66,12 +66,20 @@ If you are developing on any of the components that make up the carboncase estim
 ### Using the development environment
 
 1. Open a terminal (in which you can run docker compose commands) in the `carboncase-deployment-configuration/development` folder.
-2. Run the following command to start the development environment:
+2. Copy `.env.example`:
+    ```shell
+    cp .env.example .env
+    ```
+3. Fill out all env vars in `.env`.
+4. Run the following command to start the development environment:
     ```shell
     docker compose up --build
     ```
-3. Use `Ctrl+C` to stop the development environment.
-4. Run the following command to delete the database volume (if desired):
+5. The webservices are available at:
+   1. app: http://localhost:3000
+   2. management dash: http://localhost:3002
+6. Use `Ctrl+C` to stop the development environment.
+7. Run the following command to delete the database volume (if desired):
     ```shell
     docker compose down --volumes
     ```
