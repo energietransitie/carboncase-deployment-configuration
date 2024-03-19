@@ -41,6 +41,41 @@ The configuration will use Traefik to route the domains below to their respectiv
 - `api.dash.carboncase.tst.energietransitiewindesheim.nl`: Management dashboard API backend.
 - `deploy.carboncase.tst.energietransitiewindesheim.nl`: Webhook to update test container images.
 
+## Developing
+
+If you are developing on any of the components that make up the carboncase estimator, you can use the compose file in [`development/docker-compose.yml`](/development/docker-compose.yml) to deploy a development environment locally.
+
+### Prerequisites
+
+1. You need docker and docker compose (included in docker with newest versions) installed on your system and able to run docker and compose commands in a terminal.
+
+2. Make sure that you also have the other repositories cloned at the same level as this repo, so that your filesystem looks like this (excluding possible other files/directories):
+    ```
+    .
+    ├── carboncase-frontend/
+    ├── carboncase-api/
+    ├── carboncase-management/
+    └── carboncase-deployment-configuration/
+    ```
+
+> [!NOTE]
+> You are responsible for the code that is in those other directories.
+> That means you will need to git pull to get the latest versions,
+> but you can also choose to test some new code locally.
+
+### Using the development environment
+
+1. Open a terminal (in which you can run docker compose commands) in the `carboncase-deployment-configuration/development` folder.
+2. Run the following command to start the development environment:
+    ```shell
+    docker compose up --build
+    ```
+3. Use `Ctrl+C` to stop the development environment.
+4. Run the following command to delete the database volume (if desired):
+    ```shell
+    docker compose down --volumes
+    ```
+
 ## Deploying
 
 Use the following steps to deploy a Portainer stack. 
@@ -68,182 +103,82 @@ Add a new stack according to the following steps:
 8. Add the corresponding environment variables for the environment ([production](#production) or [test](#test)). Click on `Add an environment variable` to add additional variables.
 9. Click on `Deploy the stack`.
 
-### Production
+The stack requires the following enironment variables to be set in Portainer.
 
-The production environment requires the following enironment variables to be set in the Portainer stack.
-
-#### `WP_DB_USER`
-
-This environment variable is used to set the database user for the wordpress database.
-
-Example values: `wordpress` or `user`
-
-#### `WP_DB_PASSWORD`
-
-This environment variable is used to set the database password for the wordpress database.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-#### `MSSQL_SA_PASSWORD`
+### `MSSQL_SA_PASSWORD`
 
 This environment variable is used to set the database system administrator password.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
-#### `DB_DATABASE`
+### `DB_DATABASE`
 
 This environment variable is used to set which database should be created.
 
 Example values: `app` or `test`
 
-#### `DB_USER`
+### `DB_USER`
 
 This environment variable is used to set the database user for the app database.
 
 Example values: `app` or `user`
 
-#### `DB_PASSWORD`
+### `DB_PASSWORD`
 
 This environment variable is used to set the database password for the app database.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
-#### `JWTBEARER_SECRETKEY`
+### `JWTBEARER_SECRETKEY`
 
 This environment variable is used to set the key used for signing the JWT token used for user authorization. NOTE: this must be a string that is at least 128 bit.
 
 Example values: `YzhSGXWIWqjDvSlUbDUWC6jlPGy9vdlPPHnDHI63v50wcN4l1k4BreFaw6pC5BgUlBzyxvhBhpokNrg9lfmjt2V7geo9CniLV2bu` or `pl0vyh6y3tDvHHCBcfj6knlhN9lW9FjDGUGxgLNeqz2XbU7rpdVleDIWuSa2hmYvwBglir4Bvzk5VogbPwl46U5InSWPP1BCo9jC`
 
-#### `EMAIL_USER`
+### `EMAIL_USER`
 
 This environment variable is used to set the email account username which is used for sending e-mails for account confirmation in the management dashboard.
 
 Example values: `test@test.nl` or `hello@carboncasecalculator.example`
 
-#### `EMAIL_PASSWORD`
+### `EMAIL_PASSWORD`
 
 This environment variable is used to set the email account password which is used for sending e-mails for account confirmation in the management dashboard.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
-#### `EMAIL_DISPLAY_NAME`
+### `EMAIL_DISPLAY_NAME`
 
 This environment variable is used to set the email account display name which is used for sending e-mails for account confirmation in the management dashboard.
 
 Example values: `Energietransitie Windesheim` or `Carbon Case Calculator`
 
-#### `GITHUB_CLIENT_ID`
+### `GITHUB_CLIENT_ID`
 
 This environment variable is used to set the client id for GitHub authorization.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 
-#### `GITHUB_CLIENT_SECRET`
+### `GITHUB_CLIENT_SECRET`
 
 This environment variable is used to set the client secret for GitHub authorization.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 
-#### `MICROSOFT_CLIENT_ID`
+### `MICROSOFT_CLIENT_ID`
 
 This environment vraiable is used to set the client id for Microsoft authorization.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
 
 
-#### `MICROSOFT_CLIENT_SECRET`
+### `MICROSOFT_CLIENT_SECRET`
 
 This environment variable is used to set the client secret for Microsoft authorization.
 
 Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-### Test
-
-The test environment requires the following enironment variables to be set in the Portainer stack.
-
-#### `MSSQL_SA_PASSWORD`
-
-This environment variable is used to set the database system administrator password.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-#### `DB_DATABASE`
-
-This environment variable is used to set which database should be created.
-
-Example values: `app` or `test`
-
-#### `DB_USER`
-
-This environment variable is used to set the database user for the app database.
-
-Example values: `app` or `user`
-
-#### `DB_PASSWORD`
-
-This environment variable is used to set the database password for the app database.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-#### `JWTBEARER_SECRETKEY`
-
-This environment variable is used to set the key used for signing the JWT token used for user authorization. NOTE: this must be a string that is at least 128 bit.
-
-Example values: `YzhSGXWIWqjDvSlUbDUWC6jlPGy9vdlPPHnDHI63v50wcN4l1k4BreFaw6pC5BgUlBzyxvhBhpokNrg9lfmjt2V7geo9CniLV2bu` or `pl0vyh6y3tDvHHCBcfj6knlhN9lW9FjDGUGxgLNeqz2XbU7rpdVleDIWuSa2hmYvwBglir4Bvzk5VogbPwl46U5InSWPP1BCo9jC`
-
-#### `EMAIL_USER`
-
-This environment variable is used to set the email account username which is used for sending e-mails for account confirmation in the management dashboard.
-
-Example values: `test@test.nl` or `hello@carboncasecalculator.example`
-
-#### `EMAIL_PASSWORD`
-
-This environment variable is used to set the email account password which is used for sending e-mails for account confirmation in the management dashboard.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-#### `EMAIL_DISPLAY_NAME`
-
-This environment variable is used to set the email account display name which is used for sending e-mails for account confirmation in the management dashboard.
-
-Example values: `Energietransitie Windesheim` or `Carbon Case Calculator`
-
-#### `GITHUB_CLIENT_ID`
-
-This environment variable is used to set the client id for GitHub authorization.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-
-#### `GITHUB_CLIENT_SECRET`
-
-This environment variable is used to set the client secret for GitHub authorization.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-
-#### `MICROSOFT_CLIENT_ID`
-
-This environment vraiable is used to set the client id for Microsoft authorization.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-
-#### `MICROSOFT_CLIENT_SECRET`
-
-This environment variable is used to set the client secret for Microsoft authorization.
-
-Example values: `78sb6g654b56sdv7s89dv` or `as78sdv78sfdv67sdv5dc8sdv09sv`
-
-
-#### `WATCHTOWER_HTTP_API_TOKEN`
-
-This environment variable is used to set the HTTP API token for watchtower webhook to update the test images.
-
-Example values: `nb4!6&JtB!j82j$tzYb%#kH1` or `l2D@K7zOAjpCMn#I54b^%uv#`
 
 ## Updating
 
