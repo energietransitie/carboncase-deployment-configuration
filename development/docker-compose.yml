@@ -75,7 +75,7 @@ services:
       - DB_PASSWORD=SuPeRs3cUr3P@ssw0rd
       - DB_SERVER=carboncase-db-dev,1433
       - DB_USER=sa
-      - JWTBEARER_SECRETKEYjwt-bearer-dev-key # For signage of JWT tokens
+      - JWTBEARER_SECRETKEY=jwt-bearer-dev-key # For signage of JWT tokens
       - EMAIL_USER=${EMAIL_USER}
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - EMAIL_DISPLAY_NAME=${EMAIL_DISPLAY_NAME}
