@@ -38,7 +38,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5000 # neccessary to ensure it runs on the correct port, which is also exposed by docker
       - DB_DATABASE=co2
       - DB_PASSWORD=SuPeRs3cUr3P@ssw0rd
@@ -71,7 +71,7 @@ services:
     ports:
       - "5002:5002"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5002 # neccessary to ensure it runs on the correct port, which is also exposed by docker
       - DB_DATABASE=co2
       - DB_PASSWORD=SuPeRs3cUr3P@ssw0rd
