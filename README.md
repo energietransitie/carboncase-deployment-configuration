@@ -84,6 +84,14 @@ If you are developing on any of the components that make up the carboncase estim
     docker compose down --volumes
     ```
 
+### Common issues
+- When running the dockerfile on windows, docker and git can have issues with line endings, to fix this you need to disable git's automatic line-ending conversions:
+    ```shell
+    git config --global core.autocrlf input
+    git rm --cached -r .
+    git reset --hard
+    ```
+
 ## Deploying
 
 Use the following steps to deploy a Portainer stack. 
