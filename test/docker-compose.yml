@@ -1,94 +1,131 @@
 version: "3.9"
 services:
-
-  app-database-tst:
-    container_name: carboncase-db-tst
-    image: mcr.microsoft.com/mssql/server:2019-latest
+  app-database-prd:
+    ports:
+      - "1433:1433"
+    user: root
+    container_name: carboncase-app-db-prd
+    image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
     volumes:
-      - data:/var/opt/mssql
+      - "/var/mssql:/var/opt/mssql"
+      - "./data.sql:/var/scripts/data.sql"
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/mssql/bin/sqlservr &
+        sleep 30
+        /opt/mssql-tools/bin/sqlcmd -U sa -P ${MSSQL_SA_PASSWORD} -l 30 -e -i '/var/scripts/data.sql'
+        sleep infinity
 
-  app-tst:
-    container_name: carboncase-app-tst
+  app-prd:
+    container_name: carboncase-app-prd
     image: ghcr.io/energietransitie/carboncase-frontend:main
     restart: unless-stopped
     labels:
-      - traefik.http.routers.carboncase-app-tst.rule=Host(`app.carboncase.tst.energietransitiewindesheim.nl`)
-      - traefik.http.routers.carboncase-app-tst.tls=true
-      - traefik.http.routers.carboncase-app-tst.tls.certresolver=lets-encrypt
-      - traefik.http.services.carboncase-app-tst.loadbalancer.server.port=80
+      - traefik.enable=true
+      - traefik.http.routers.carboncase-app-prd.rule=Host(`DOMAIN_NAME`)
+      - traefik.http.routers.carboncase-app-prd.tls=true
+      - traefik.http.routers.carboncase-app-prd.tls.certresolver=lets-encrypt
+      - traefik.http.services.carboncase-app-prd.loadbalancer.server.port=80
+      - traefik.http.routers.carboncase-app-prd.entrypoints=websecure
     environment:
-      - VITE_API_URL=https://api.app.carboncase.tst.energietransitiewindesheim.nl
-      - VITE_BASE_URL=https://app.carboncase.tst.energietransitiewindesheim.nl
-      - VITE_CATEGORY_TOOLS=${VITE_CATEGORY_TOOLS}
-      - VITE_CATEGORY_HARDWARE=${VITE_CATEGORY_HARDWARE}
-      - VITE_CATEGORY_TRANSPORT=${VITE_CATEGORY_TRANSPORT}
-      - VITE_INSIGNIFICANT_EMISSION_CONSTANT=${VITE_INSIGNIFICANT_EMISSION_CONSTANT}
+      - VITE_API_URL=https://api.app.DOMAIN_NAME
+      - VITE_CATEGORY_TOOLS=3
+      - VITE_CATEGORY_HARDWARE=2
+      - VITE_CATEGORY_TRANSPORT=1
+      - VITE_BASE_URL=https://DOMAIN_NAME
+      - VITE_INSIGNIFICANT_EMISSION_CONSTANT=100
     networks:
       - web
     depends_on:
-      - app-api-tst
+      - app-api-prd
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
 
-  app-api-tst:
-    container_name: carboncase-app-api-tst
+  app-api-prd:
+    container_name: carboncase-app-api-prd
     image: ghcr.io/energietransitie/carboncase-api:main
+    #build:
+    #  context: ../../carboncase-api
+    #  dockerfile: Api.Dockerfile
     restart: unless-stopped
     labels:
-      - traefik.http.routers.carboncase-app-api-tst.rule=Host(`api.app.carboncase.tst.energietransitiewindesheim.nl`)
-      - traefik.http.routers.carboncase-app-api-tst.tls=true
-      - traefik.http.routers.carboncase-app-api-tst.tls.certresolver=lets-encrypt
-      - traefik.http.services.carboncase-app-api-tst.loadbalancer.server.port=5000
+      - traefik.enable=true
+      - traefik.http.routers.carboncase-app-api-prd.rule=Host(`api.app.DOMAIN_NAME`)
+      - traefik.http.routers.carboncase-app-api-prd.tls=true
+      - traefik.http.routers.carboncase-app-api-prd.tls.certresolver=lets-encrypt
+      - traefik.http.services.carboncase-app-api-prd.loadbalancer.server.port=5000
+      - traefik.http.routers.carboncase-app-api-prd.entrypoints=websecure
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5000 # neccessary to ensure it runs on the correct port, which is also exposed by docker
       - DB_DATABASE=${DB_DATABASE}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_SERVER=carboncase-db-tst,1433
+      - DB_SERVER=carboncase-app-db-prd,1433
       - DB_USER=${DB_USER}
       - JWTBEARER_SECRETKEY=${JWTBEARER_SECRETKEY} # For signage of JWT tokens
     networks:
       - default
       - web
     depends_on:
-      - app-database-tst
+      - app-database-prd
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
 
-  management-tst:
-    container_name: carboncase-management-tst
+  management-prd:
+    container_name: carboncase-management-prd
     image: ghcr.io/energietransitie/carboncase-management:main
+    #build:
+     # context: ../../carboncase-management
+      #dockerfile: Dockerfile
     restart: unless-stopped
     labels:
-      - traefik.http.routers.carboncase-management-tst.rule=Host(`dash.carboncase.tst.energietransitiewindesheim.nl`)
-      - traefik.http.routers.carboncase-management-tst.tls=true
-      - traefik.http.routers.carboncase-management-tst.tls.certresolver=lets-encrypt
-      - traefik.http.services.carboncase-management-tst.loadbalancer.server.port=80
+      - traefik.enable=true
+      - traefik.http.routers.carboncase-management-prd.rule=Host(`dash.DOMAIN_NAME`)
+      - traefik.http.routers.carboncase-management-prd.tls=true
+      - traefik.http.routers.carboncase-management-prd.tls.certresolver=lets-encrypt
+      - traefik.http.services.carboncase-management-prd.loadbalancer.server.port=80
+      - traefik.http.routers.carboncase-management-prd.entrypoints=websecure
     environment:
-      - VITE_API_BASE_URL=https://api.dash.carboncase.tst.energietransitiewindesheim.nl
-      - VITE_FRONTEND_BASE_URL=https://dash.carboncase.tst.energietransitiewindesheim.nl
-      - VITE_GITHUB_AUTH_CLIENT_ID=${GITHUB_CLIENT_ID}
-      - VITE_MICROSOFT_AUTH_CLIENT_ID=${MICROSOFT_CLIENT_ID}
+       - VITE_API_BASE_URL=https://api.dash.DOMAIN_NAME
+       - VITE_FRONTEND_BASE_URL=https://dash.DOMAIN_NAME
+       - VITE_GITHUB_AUTH_CLIENT_ID=ae858596388adcf5af03
+       - VITE_MICROSOFT_AUTH_CLIENT_ID=ddcf7cea-fcd3-4d08-ab86-8f28fbd07458
     networks:
       - web
     depends_on:
-      - management-api-tst
+      - management-api-prd
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
 
-  management-api-tst:
-    container_name: carboncase-management-api-tst
+  management-api-prd:
+    container_name: carboncase-management-api-prd
     image: ghcr.io/energietransitie/carboncase-management-api:main
+    #build:
+     # context: ../../carboncase-api
+      #dockerfile: ManagementApi.Dockerfile
     restart: unless-stopped
     labels:
-      - traefik.http.routers.carboncase-management-api-tst.rule=Host(`api.dash.carboncase.tst.energietransitiewindesheim.nl`)
-      - traefik.http.routers.carboncase-management-api-tst.tls=true
-      - traefik.http.routers.carboncase-management-api-tst.tls.certresolver=lets-encrypt
-      - traefik.http.services.carboncase-management-api-tst.loadbalancer.server.port=5002
+      - traefik.enable=true
+      - traefik.http.routers.carboncase-management-api-prd.rule=Host(`api.dash.DOMAIN_NAME`)
+      - traefik.http.routers.carboncase-management-api-prd.tls=true
+      - traefik.http.routers.carboncase-management-api-prd.tls.certresolver=lets-encrypt
+      - traefik.http.services.carboncase-management-api-prd.loadbalancer.server.port=5002
+      - traefik.http.routers.carboncase-management-api-prd.entrypoints=websecure
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5002 # neccessary to ensure it runs on the correct port, which is also exposed by docker
       - DB_DATABASE=${DB_DATABASE}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_SERVER=carboncase-db-tst,1433
+      - DB_SERVER=carboncase-app-db-prd,1433
       - DB_USER=${DB_USER}
       - JWTBEARER_SECRETKEY=${JWTBEARER_SECRETKEY} # For signage of JWT tokens
       - EMAIL_USER=${EMAIL_USER}
@@ -102,7 +139,10 @@ services:
       - default
       - web
     depends_on:
-      - app-database-tst
+      - app-database-prd
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
 
 volumes:
   data: {}
