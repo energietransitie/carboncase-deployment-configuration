@@ -1,8 +1,10 @@
 # Carbon Case Deployment Configuration
 
-This repository contains configuration files and instructions for the deployment of the carbon case application on a Docker/Portainer server.
+The Carbon Case Estimator is a tool that allows users to estimate the carbon footprint of an IT project. This repository contains configuration files and instructions for the deployment of the Carbon Case Estimator application on a Docker server.
 
 NB: Where you read `energietransitiewindesheim.nl` below, you should subsitute your own domain.
+
+A production version of this app currently runs on [https://carboncaseestimator.nl/](https://carboncaseestimator.nl/), used by the [HBO-ICT](https://www.windesheim.nl/opleidingen/voltijd/bachelor/hbo-ict-zwolle) and maintained by icto-domeintechniek@windesheim.nl
 
 ## Table of contents
 - [Prerequisites](#prerequisites)
@@ -276,7 +278,7 @@ Current version is subject to change.
 ## License
 
 This software is available under the [Apache 2.0 license](./LICENSE), 
-Copyright 2022 [Research group Energy Transition, Windesheim University of 
+Copyright 2022 [Research Group Energy Transition, Windesheim University of 
 Applied Sciences](https://windesheim.nl/energietransitie) 
 
 ## Credits
